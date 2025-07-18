@@ -1,41 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
+
 <head>
-  <meta charset="utf-8" />
-  <title>Register Admin</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8" />
+    <title>สมัครสมาชิก</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  <h2>สมัครสมาชิก Admin</h2>
-  <input id="username" type="text" placeholder="Username" />
-  <input id="password" type="password" placeholder="Password" />
-  <button id="btnRegister">สมัครสมาชิก</button>
-  <p><a href="index.html">กลับไปหน้า Login</a></p>
-  <p class="error" id="error"></p>
+    <form id="registerForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">สมัครสมาชิก</button>
+    </form>
 
-  <script type="module">
-    import { registerAdmin } from "./js/api.js";
 
-    const btnRegister = document.getElementById("btnRegister");
-    const errorEl = document.getElementById("error");
+    <!-- ✅ Load API helper ก่อน -->
+    <script src="js/api.js"></script>
 
-    btnRegister.onclick = async () => {
-      errorEl.textContent = "";
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      if (!username || !password) {
-        errorEl.textContent = "กรุณากรอก username และ password";
-        return;
-      }
-
-      const res = await registerAdmin(username, password);
-      if (res.status === "success") {
-        alert("สมัครสมาชิกสำเร็จ!");
-        window.location.href = "index.html";
-      } else {
-        errorEl.textContent = res.message || "สมัครสมาชิกไม่สำเร็จ";
-      }
-    };
-  </script>
+    <!-- ✅ Load register logic -->
+    <script src="js/register.js"></script>
 </body>
+
 </html>

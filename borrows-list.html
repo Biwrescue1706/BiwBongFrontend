@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>รายการยืมอุปกรณ์</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>รายการยืมอุปกรณ์</h2>
+  <button id="btnLogout">ออกจากระบบ</button>
+  <button id="btnLoadBorrows">โหลดรายการ</button>
+
+  <table id="borrowTable" style="display:none;">
+    <thead>
+      <tr><th>BorrowID</th><th>Username</th><th>อุปกรณ์</th><th>จำนวน</th><th>วันที่ยืม</th><th>วันที่คืน</th><th>คืน</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/borrow_list.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>รายการอุปกรณ์</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>รายการอุปกรณ์</h2>
+  <button id="btnLogout">ออกจากระบบ</button>
+  <button id="btnLoadEquipments">โหลดอุปกรณ์</button>
+
+  <table id="equipmentsTable" style="display:none;">
+    <thead>
+      <tr><th>ID</th><th>ชื่ออุปกรณ์</th><th>รวม</th><th>คงเหลือ</th><th>แก้ไข</th><th>ลบ</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>เพิ่ม / แก้ไขอุปกรณ์</h3>
+  <form id="equipmentForm">
+    <input type="hidden" id="editId" />
+    ชื่ออุปกรณ์: <input type="text" id="inputName" required /><br/>
+    จำนวนทั้งหมด: <input type="number" id="inputTotal" required min="1" /><br/>
+    <button type="submit">บันทึก</button>
+    <button type="button" id="btnCancelEdit" style="display:none;">ยกเลิกแก้ไข</button>
+  </form>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/equipments.js"></script>
+</body>
+</html>

@@ -1,29 +1,15 @@
-import { loginAdmin } from "./api.js";
-import { setToken } from "./auth.js";
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-const btnLogin = document.getElementById("btnLogin");
-const errorEl = document.getElementById("error");
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
 
-btnLogin.onclick = async () => {
-  errorEl.textContent = "";
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const result = await apiPost('login', { username, password });
 
-  if (!username || !password) {
-    errorEl.textContent = "กรุณากรอก username และ password";
-    return;
+  if (result.success) {
+    setUser(username);
+    window.location.href = 'index.html';
+  } else {
+    alert(result.message || 'เข้าสู่ระบบไม่สำเร็จ');
   }
-
-  try {
-    const res = await loginAdmin(username, password);
-    if (res.status === "success" && res.token) {
-      setToken(res.token);
-      window.location.href = "add.html";
-    } else {
-      errorEl.textContent = res.message || "เข้าสู่ระบบล้มเหลว";
-    }
-  } catch (err) {
-    errorEl.textContent = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
-    console.error(err);
-  }
-};
+});

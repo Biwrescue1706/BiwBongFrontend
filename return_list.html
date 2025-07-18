@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>รายการค้างคืน</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>รายการค้างคืน (รายการที่ยังไม่คืน)</h2>
+  <button id="btnLogout">ออกจากระบบ</button>
+  <button id="btnLoadReturns">โหลดรายการค้างคืน</button>
+
+  <table id="returnTable" style="display:none;">
+    <thead>
+      <tr><th>BorrowID</th><th>Username</th><th>อุปกรณ์</th><th>จำนวน</th><th>วันที่ยืม</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/return_list.js"></script>
+</body>
+</html>

@@ -1,13 +1,24 @@
-export function setToken(token) {
-  document.cookie = `token=${token};path=/;max-age=600`; // 10 นาที
+function setUser(username) {
+  localStorage.setItem('username', username);
 }
 
-export function getToken() {
-  const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
-  if (match) return match[2];
-  return null;
+function getUser() {
+  return localStorage.getItem('username');
 }
 
-export function clearToken() {
-  document.cookie = "token=;path=/;max-age=0";
+function clearUser() {
+  localStorage.removeItem('username');
+}
+
+function logout() {
+  clearUser();
+  location.href = 'login.html';
+}
+
+function requireLogin() {
+  const username = getUser();
+  if (!username) {
+    alert('กรุณาเข้าสู่ระบบก่อนใช้งาน');
+    location.href = 'login.html';
+  }
 }

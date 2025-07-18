@@ -1,29 +1,35 @@
-// js/register.js
-import { registerAdmin } from "./api.js";
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("registerForm");
 
-const btnRegister = document.getElementById("btnRegister");
-const errorEl = document.getElementById("error");
-
-btnRegister.onclick = async () => {
-  errorEl.textContent = "";
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  if (!username || !password) {
-    errorEl.textContent = "กรุณากรอก username และ password";
+  if (!form) {
+    console.error("ไม่พบฟอร์ม registerForm");
     return;
   }
 
-  try {
-    const res = await registerAdmin(username, password);
-    if (res.status === "success") {
-      alert("สมัครสมาชิกสำเร็จ!");
-      window.location.href = "index.html";
-    } else {
-      errorEl.textContent = res.message || "สมัครสมาชิกไม่สำเร็จ";
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const username = document.querySelector("#username")?.value?.trim();
+    const password = document.querySelector("#password")?.value?.trim();
+
+    if (!username || !password) {
+      alert("กรุณากรอกข้อมูลให้ครบ");
+      return;
     }
-  } catch (err) {
-    errorEl.textContent = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
-    console.error(err);
-  }
-};
+
+    const userId = generateId("u_");
+
+    try {
+      const result = await register(userId, username, password);
+      if (result.success) {
+        alert("สมัครสมาชิกสำเร็จ");
+        window.location.href = "login.html";
+      } else {
+        alert(result.message || "สมัครสมาชิกไม่สำเร็จ");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      alert("เกิดข้อผิดพลาด");
+    }
+  });
+});
