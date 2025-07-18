@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ยืมอุปกรณ์</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>ยืมอุปกรณ์</h2>
+  <input id="borrowerName" type="text" placeholder="ชื่อผู้ยืม" />
+  <select id="equipmentSelect"></select>
+  <input id="quantity" type="number" min="1" placeholder="จำนวน" />
+  <button id="btnBorrow">ยืม</button>
+  <p class="error" id="error"></p>
+
+  <script type="module">
+    import { getEquipments, borrowEquipment } from "./js/api.js";
+
+    const equipmentSelect = document.getElementById("equipmentSelect");
+    const btnBorrow = document.getElementById("btnBorrow");
+    const errorEl = document.getElementById("error");
+
+    // โหลดรายการอุปกรณ์จาก API
+    async function loadEquipments() {
+      const res = await getEquipments();
+      if (res.status === "success" && Array.isArray(res.data)) {
+        equipmentSelect.innerHTML = "";
+        res.data.forEach(eq => {
+          const opt = document.createElement("option");
+          opt.value = eq.id;
+          opt.textContent = `${eq.name} (คงเหลือ: ${eq.available})`;
+          equipmentSelect.appendChild(opt);
+        });
+      } else {
+        errorEl.textContent = "โหลดข้อมูลอุปกรณ์ล้มเหลว";
+      }
+    }
+
+    btnBorrow.onclick = async () => {
+      errorEl.textContent = "";
+      const name = document.getElementById("borrowerName").value.trim();
+      const equipmentId = equipmentSelect.value;
+      const quantity = parseInt(document.getElementById("quantity").value, 10);
+
+      if (!name || !equipmentId || isNaN(quantity) || quantity <= 0) {
+        errorEl.textContent = "กรุณากรอกข้อมูลให้ถูกต้อง";
+        return;
+      }
+
+      const res = await borrowEquipment(name, equipmentId, quantity);
+      if (res.status === "success") {
+        alert("ยืมอุปกรณ์สำเร็จ");
+        document.getElementById("borrowerName").value = "";
+        document.getElementById("quantity").value = "";
+        await loadEquipments();
+      } else {
+        errorEl.textContent = res.message || "ยืมอุปกรณ์ล้มเหลว";
+      }
+    };
+
+    loadEquipments();
+  </script>
+</body>
+</html>

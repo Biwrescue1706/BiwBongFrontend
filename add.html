@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>เพิ่มอุปกรณ์</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>เพิ่มอุปกรณ์ใหม่</h1>
+
+  <form id="add-equipment-form">
+    <label for="id">ID:</label><br />
+    <input type="text" id="id" name="id" required /><br />
+
+    <label for="name">ชื่ออุปกรณ์:</label><br />
+    <input type="text" id="name" name="name" required /><br />
+
+    <label for="total">จำนวนทั้งหมด:</label><br />
+    <input type="number" id="total" name="total" min="1" required /><br /><br />
+
+    <button type="submit">เพิ่มอุปกรณ์</button>
+  </form>
+
+  <p><a href="index.html">กลับหน้ารายการอุปกรณ์</a></p>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('add-equipment-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('id').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const total = parseInt(document.getElementById('total').value);
+
+      try {
+        await createEquipment({ ID: id, Name: name, Total: total });
+        alert('เพิ่มอุปกรณ์สำเร็จ');
+        window.location.href = 'index.html';
+      } catch (error) {
+        alert('เกิดข้อผิดพลาด: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>

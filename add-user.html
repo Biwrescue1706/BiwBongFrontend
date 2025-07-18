@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>เพิ่มผู้ใช้</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>เพิ่มผู้ใช้ใหม่</h1>
+
+  <form id="add-user-form">
+    <label for="userid">UserId:</label><br />
+    <input type="text" id="userid" name="userid" required /><br />
+
+    <label for="username">Username:</label><br />
+    <input type="text" id="username" name="username" required /><br />
+
+    <label for="password">Password (จะถูก hash ที่ backend):</label><br />
+    <input type="password" id="password" name="password" required /><br /><br />
+
+    <button type="submit">เพิ่มผู้ใช้</button>
+  </form>
+
+  <p><a href="users.html">กลับหน้ารายการผู้ใช้</a></p>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userid = document.getElementById('userid').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        await createUser({ UserId: userid, Username: username, Password: password });
+        alert('เพิ่มผู้ใช้สำเร็จ');
+        window.location.href = 'users.html';
+      } catch (error) {
+        alert('เกิดข้อผิดพลาด: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>

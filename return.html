@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>คืนอุปกรณ์</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>คืนอุปกรณ์</h2>
+  <input id="borrowId" type="text" placeholder="รหัสการยืม (Borrow ID)" />
+  <button id="btnReturn">คืนอุปกรณ์</button>
+  <p class="error" id="error"></p>
+
+  <script type="module">
+    import { returnEquipment } from "./js/api.js";
+    import { getToken } from "./js/auth.js";
+
+    const btnReturn = document.getElementById("btnReturn");
+    const errorEl = document.getElementById("error");
+
+    btnReturn.onclick = async () => {
+      errorEl.textContent = "";
+      const borrowId = document.getElementById("borrowId").value.trim();
+      const token = getToken();
+
+      if (!borrowId) {
+        errorEl.textContent = "กรุณากรอก Borrow ID";
+        return;
+      }
+
+      if (!token) {
+        alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+        window.location.href = "index.html";
+        return;
+      }
+
+      const res = await returnEquipment(borrowId, token);
+      if (res.status === "success") {
+        alert("คืนอุปกรณ์สำเร็จ");
+        document.getElementById("borrowId").value = "";
+      } else {
+        errorEl.textContent = res.message || "คืนอุปกรณ์ล้มเหลว";
+      }
+    };
+  </script>
+</body>
+</html>
