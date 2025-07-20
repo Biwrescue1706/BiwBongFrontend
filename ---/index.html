@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ระบบยืม-คืนอุปกรณ์</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>ยินดีต้อนรับสู่ระบบยืม-คืนอุปกรณ์</h1>
+
+  <div id="userSection"></div>
+
+  <nav>
+    <ul>
+      <li><a href="equipments.html">รายการอุปกรณ์</a></li>
+      <li><a href="borrow.html">ยืมอุปกรณ์</a></li>
+      <li><a href="borrow_list.html">รายการยืม</a></li>
+      <li><a href="returns-pending.html">รายการค้างคืน</a></li>
+    </ul>
+  </nav>
+
+  <script src="js/auth.js"></script>
+  <script>
+    const userSection = document.getElementById('userSection');
+    const username = getUser();
+
+    if(username) {
+      userSection.innerHTML = `
+        <p>สวัสดี, <strong>${username}</strong> | <a href="#" id="logoutLink">ออกจากระบบ</a></p>
+      `;
+      document.getElementById('logoutLink').onclick = e => {
+        e.preventDefault();
+        logout();
+      };
+    } else {
+      userSection.innerHTML = `
+        <p><a href="login.html">เข้าสู่ระบบ</a> | <a href="register.html">สมัครสมาชิก</a></p>
+      `;
+    }
+  </script>
+</body>
+</html>
