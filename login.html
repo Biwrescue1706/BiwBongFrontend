@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>เข้าสู่ระบบ</title>
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width: 400px;">
+      <h1 class="text-center mb-3">ระบบจัดการอุปกรณ์</h1>
+      <h4 class="mb-3 text-center">เข้าสู่ระบบ</h4>
+      <form id="loginForm">
+        <div class="mb-3">
+          <input type="text" id="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" id="password" class="form-control" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">เข้าสู่ระบบ</button>
+      </form>
+      <div class="text-center mt-3">
+        ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิก</a>
+      </div>
+    </div>
+  </div>
+  <script src="../js/auth.js"></script>
+</body>
+</html>
