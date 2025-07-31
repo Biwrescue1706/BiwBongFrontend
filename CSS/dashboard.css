@@ -1,0 +1,186 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #46e2a1;
+  margin: 10px;
+  padding: 0;
+  color: #000000;
+}
+
+.dashboard-container {
+  background-color: #e6dede;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+h1 {
+  color: #000000;
+  font-weight: 700;
+  font-size: 30px;
+  margin: auto auto 20px;
+}
+
+#addEquipmentBtn {
+  background-color: #ff7b00;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+#addBtn:hover {
+  background-color: #084298;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+thead {
+  background-color: #53ff04;
+  color: #000000;
+  font-weight: 700;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th.fd {
+  width: auto;
+}
+
+tbody tr:hover {
+  background-color: #f1f9f8;
+}
+
+button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 2px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+button[onclick*="editEquipment"] {
+  background-color: #2fc22f;
+}
+
+button[onclick*="deleteEquipment"] {
+  background-color: #dc3545;
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 20px 15px;
+    margin: 10px;
+    width: 70%;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  #addEquipmentBtn {
+    font-size: 16px;
+    padding: 8px 12px;
+    width: 100%;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none; /* ซ่อน header ตารางบนมือถือ */
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  tbody tr td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  tbody tr td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    padding-left: 10px;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 6px 10px;
+    margin-top: 5px;
+    width: 48%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .dashboard-container {
+    padding: 30px 30px;
+    max-width: 720px;
+    width: 80%;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  #addEquipmentBtn {
+    font-size: 18px;
+    padding: 9px 15px;
+    width: auto;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1279px) {
+  .dashboard-container {
+    max-width: 900px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .dashboard-container {
+    max-width: 1000px;
+  }
+}
