@@ -1,42 +1,46 @@
 <!DOCTYPE html>
+
 <html lang="th">
+
 <head>
+
   <meta charset="UTF-8" />
-  <title>ระบบยืม-คืนอุปกรณ์</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เข้าสู่ระบบ</title>
+  <link rel="stylesheet" href="CSS/index.css" />
+
+  <!-- SweetAlert2 CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
+
 <body>
-  <h1>ยินดีต้อนรับสู่ระบบยืม-คืนอุปกรณ์</h1>
 
-  <div id="userSection"></div>
+  <div class="login-container">
+    <h1>ระบบจัดการอุปกรณ์</h1>
+    <h1>เข้าสู่ระบบ</h1>
+    <form id="loginForm">
+      <label for="username">ชื่อผู้ใช้</label>
+      <input type="text" id="username" name="username" required />
+      <label for="password">รหัสผ่าน</label>
+      <div class="password-container">
+        <input type="password" id="password" name="password" required />
+        <span id="togglePassword" class="toggle-password">🙈</span>
+      </div>
+      <button type="submit">เข้าสู่ระบบ</button>
 
-  <nav>
-    <ul>
-      <li><a href="equipments.html">รายการอุปกรณ์</a></li>
-      <li><a href="borrow.html">ยืมอุปกรณ์</a></li>
-      <li><a href="borrow_list.html">รายการยืม</a></li>
-      <li><a href="returns-pending.html">รายการค้างคืน</a></li>
-    </ul>
-  </nav>
+      <p style="margin-top: 10px; text-align: right;">
+        <a href="forgotPassword.html" id="forgotPasswordLink"
+          style="color: #007bff; cursor: pointer; text-decoration: underline;">
+          ฉันลืมรหัสผ่าน
+        </a>
+      </p>
+    </form>
 
-  <script src="js/auth.js"></script>
-  <script>
-    const userSection = document.getElementById('userSection');
-    const username = getUser();
 
-    if(username) {
-      userSection.innerHTML = `
-        <p>สวัสดี, <strong>${username}</strong> | <a href="#" id="logoutLink">ออกจากระบบ</a></p>
-      `;
-      document.getElementById('logoutLink').onclick = e => {
-        e.preventDefault();
-        logout();
-      };
-    } else {
-      userSection.innerHTML = `
-        <p><a href="login.html">เข้าสู่ระบบ</a> | <a href="register.html">สมัครสมาชิก</a></p>
-      `;
-    }
-  </script>
+  </div>
+  <script src="JS/auth.js"></script>
+  <script src="JS/login.js"></script>
 </body>
+
 </html>

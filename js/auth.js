@@ -1,97 +1,99 @@
-const backendURL = 'https://biwbongbackend.onrender.com'; // เปลี่ยนเป็น URL backend จริงของคุณ
+const backendURL = 'https://biwbongbackend.onrender.com';
 
-// Login
+// ฟังก์ชัน login
 async function login(username, password) {
   const res = await fetch(`${backendURL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username, password }),
   });
-  return res.json();
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'เข้าสู่ระบบไม่สำเร็จ');
+  return data;
 }
 
-// Register
+// ฟังก์ชัน register
 async function register(username, name, password) {
   const res = await fetch(`${backendURL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, name, password })
+    credentials: 'include',
+    body: JSON.stringify({ username, name, password }),
   });
-  return res.json();
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'สมัครสมาชิกไม่สำเร็จ');
+  return data;
 }
 
-// Logout
+// ฟังก์ชัน logout
 async function logout() {
-  await fetch(`${backendURL}/auth/logout`, {
+  const res = await fetch(`${backendURL}/auth/logout`, {
     method: 'POST',
-    credentials: 'include'
+    credentials: 'include',
   });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'ออกจากระบบไม่สำเร็จ');
+  return data;
 }
 
-// ดึงข้อมูลผู้ใช้จาก token
-async function getMe() {
-  const res = await fetch(`${backendURL}/auth/me`, {
-    method: 'GET',
-    credentials: 'include'
+// ฟังก์ชันดึงข้อมูลโปรไฟล์
+async function fetchUserProfile() {
+  const res = await fetch(`${backendURL}/auth/profile`, {
+    credentials: 'include',
   });
-  if (!res.ok) throw new Error('Not authenticated');
-  return res.json();
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.message || 'Unauthorized');
+  }
+  const data = await res.json();
+  return data.user;
 }
 
-// Event listeners for Login form
-document.getElementById('loginForm')?.addEventListener('submit', async e => {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+// ฟังก์ชันตรวจสอบสถานะ login และ redirect ถ้าไม่ login
+async function checkLogin() {
+  try {
+    const user = await fetchUserProfile();
 
-  const result = await login(username, password);
+    const usernameEl = document.getElementById('username');
+    if (usernameEl) {
+      usernameEl.textContent = user.Username || user.name || 'ไม่มีชื่อ';
+    }
 
-  if (result.token) {
-    Swal.fire({
-      icon: 'success',
-      title: 'เข้าสู่ระบบสำเร็จ',
-      text: result.message || 'ยินดีต้อนรับ!',
-      timer: 1500,
-      showConfirmButton: false
-    });
-    setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 1600);
-  } else {
+    return user;
+  } catch (err) {
+    console.warn('ยังไม่ได้เข้าสู่ระบบ:', err.message);
     Swal.fire({
       icon: 'error',
-      title: 'เข้าสู่ระบบไม่สำเร็จ',
-      text: result.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+      title: 'กรุณาเข้าสู่ระบบก่อนใช้งาน',
+      timer: 2000,
+      showConfirmButton: false,
+    }).then(() => {
+      window.location.href = 'index.html';
+    });
+    return null;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirmPassword');
+  const togglePassword = document.getElementById('togglePassword');
+  const toggleConfirm = document.getElementById('toggleConfirmPassword');
+
+  if (togglePassword && passwordInput) {
+    togglePassword.addEventListener('click', () => {
+      const isHidden = passwordInput.type === 'password';
+      passwordInput.type = isHidden ? 'text' : 'password';
+      togglePassword.textContent = isHidden ? '👁️' : '🙈';
     });
   }
-});
 
-// Event listeners for Register form
-document.getElementById('registerForm')?.addEventListener('submit', async e => {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const name = document.getElementById('name').value.trim();
-  const password = document.getElementById('password').value;
-
-  const result = await register(username, name, password);
-
-  if (result.user) {
-    Swal.fire({
-      icon: 'success',
-      title: 'สมัครสมาชิกสำเร็จ',
-      text: result.message || 'สามารถเข้าสู่ระบบได้แล้ว',
-      timer: 1500,
-      showConfirmButton: false
-    });
-    setTimeout(() => {
-      window.location.href = 'index.html';
-    }, 1600);
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'สมัครสมาชิกไม่สำเร็จ',
-      text: result.message || 'กรุณาตรวจสอบข้อมูลอีกครั้ง'
+  if (toggleConfirm && confirmInput) {
+    toggleConfirm.addEventListener('click', () => {
+      const isHidden = confirmInput.type === 'password';
+      confirmInput.type = isHidden ? 'text' : 'password';
+      toggleConfirm.textContent = isHidden ? '👁️' : '🙈';
     });
   }
 });

@@ -1,42 +1,37 @@
-const backendURL = 'https://biwbongbackend.onrender.com';
 
+// ดักจับการ submit ฟอร์ม login
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+
+  const username = e.target.username.value.trim();
+  const password = e.target.password.value;
 
   try {
-    const res = await fetch(`${backendURL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // สำคัญ ต้องใส่เพื่อส่ง cookie
-      body: JSON.stringify({ username, password })
+    // เรียกฟังก์ชัน login ใน auth.js
+    await login(username, password);
+
+    // ดึงข้อมูล user profile เพื่อตรวจสอบ token
+    const user = await fetchUserProfile();
+
+    // แสดง popup แจ้ง success
+    Swal.fire({
+      icon: 'success',
+      title: `ยินดีต้อนรับ ${user.name}`,
+      timer: 1000,
+      showConfirmButton: false,
     });
 
-    const data = await res.json();
+    // รอให้ popup แสดงสักครู่ก่อน redirect
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1000);
 
-    if (res.ok && data.token) {
-      Swal.fire({
-        icon: 'success',
-        title: 'เข้าสู่ระบบสำเร็จ',
-        timer: 1500,
-        showConfirmButton: false
-      });
-      setTimeout(() => {
-        window.location.href = 'dashboard.html'; // เปลี่ยนเป็นหน้าหลักหลัง login
-      }, 1500);
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'เข้าสู่ระบบไม่สำเร็จ',
-        text: data.message || 'เกิดข้อผิดพลาด'
-      });
-    }
-  } catch (err) {
+  } catch (error) {
+    // ถ้า login หรือ fetch profile ล้มเหลว แจ้ง error
     Swal.fire({
       icon: 'error',
-      title: 'เกิดข้อผิดพลาด',
-      text: err.message
+      title: 'เข้าสู่ระบบไม่สำเร็จ',
+      text: error.message || 'เกิดข้อผิดพลาด',
     });
   }
 });
